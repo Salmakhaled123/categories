@@ -1,16 +1,13 @@
-# categories_task
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# ▶️categories_task
+🚀it consists of  2 screens🚀<br>
+1-⭐ show all categories in market<br>
+2-⭐ show the stands in each category and show  all products in each  stand
+## packages used :
+🌻 dio => for htttp requests to api <br>
+🌻 flutter_bloc => for state management <br>
+🌻 dartz => for showing the best case and worst case scenario of the response of api <br>
+## 📷 screenshots for app:
+![screen1](https://github.com/user-attachments/assets/050cd805-2482-4d83-9a63-e3e25499fbf0)
+![screen2](https://github.com/user-attachments/assets/599c233f-9c29-45f6-b09e-ca81e2525539)
+## 📹 video demo:
+[task_edit_0.webm](https://github.com/user-attachments/assets/6a76f7ba-c4b4-427d-a785-b04320172808)
