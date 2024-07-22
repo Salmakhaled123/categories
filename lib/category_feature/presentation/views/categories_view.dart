@@ -47,13 +47,9 @@ class CategoriesView extends StatelessWidget {
              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsCategoryView( currentPosition: index)));
 
                 },
-                child: Column(
-                  children: [
-                         Image.network(
-                            state.categoriesList[index].image,
-                          )
-                  ],
-                ),
+                child: Image.network(
+                   state.categoriesList[index].image,
+                 ),
               ),
             );
           } else if (state is CategoriesLoading) {

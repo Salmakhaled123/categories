@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 
 class ApiService{
   static const String _baseUrl=
-      'https://martizoom.com';
+      'https://martizoom.com/api';
+
   late Dio dio;
    ApiService({required this.dio});
   Future<dynamic>get(String endpoint)async
