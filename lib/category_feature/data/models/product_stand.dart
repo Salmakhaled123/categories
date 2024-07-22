@@ -38,7 +38,7 @@ class ProductStandItem {
       id: json['id'],
       isAvailable: json['is_available'],
       productName: json['products_name'],
-      image: json['image'] ?? 'https://static.vecteezy.com/system/resources/previews/004/999/463/original/shopping-cart-icon-illustration-free-vector.jpg',
+      image: json['image'] ?? '',
       mainPrice: json['MainPrice'],
       priceAfterDiscount: json['priceAfterDiscount'],
       hasOffer: json['has_offer'],

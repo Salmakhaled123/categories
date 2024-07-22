@@ -9,7 +9,6 @@ import '../view_models/categories_stand/categories_stands_cubit.dart';
 
 class ProductsCategoryView extends StatefulWidget {
   final int currentPosition;
-
   const ProductsCategoryView({
     super.key,
     required this.currentPosition,
@@ -21,35 +20,31 @@ class ProductsCategoryView extends StatefulWidget {
 
 class _ProductsCategoryViewState extends State<ProductsCategoryView>
     with SingleTickerProviderStateMixin {
-  late TabController subTabController;
+ late TabController subTabController;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CategoriesStandsCubit>(context).getProductsStands(
-        categoryId: BlocProvider.of<CategoriesCubit>(context)
+    BlocProvider.of<CategoriesStandsCubit>(context).getAllCategoriesStands(
+      int.parse(
+        BlocProvider.of<CategoriesCubit>(context)
             .categoriesItems[widget.currentPosition]
             .id,
-        standId: BlocProvider.of<CategoriesStandsCubit>(context)
-            .stands[0]
-            .id
-            .toString());
-    subTabController = TabController(
-        length: BlocProvider.of<CategoriesStandsCubit>(context).stands.length,
-        vsync: this);
-    subTabController.addListener(_handleTabSelection);
+      ),
+    );
   }
 
   void _handleTabSelection() async {
     if (subTabController.indexIsChanging) {
       await BlocProvider.of<CategoriesStandsCubit>(context).getProductsStands(
-          categoryId: BlocProvider.of<CategoriesCubit>(context)
-              .categoriesItems[widget.currentPosition]
-              .id,
-          standId: BlocProvider.of<CategoriesStandsCubit>(context)
-              .stands[subTabController.index]
-              .id
-              .toString());
+        categoryId: BlocProvider.of<CategoriesCubit>(context)
+            .categoriesItems[widget.currentPosition]
+            .id,
+        standId: BlocProvider.of<CategoriesStandsCubit>(context)
+            .stands[subTabController.index]
+            .id
+            .toString(),
+      );
     }
   }
 
@@ -61,29 +56,42 @@ class _ProductsCategoryViewState extends State<ProductsCategoryView>
 
   @override
   Widget build(BuildContext context) {
-    return   DefaultTabController(
-      initialIndex: widget.currentPosition,
-      length:
-      BlocProvider.of<CategoriesCubit>(context).categoriesItems.length,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.pink,
-          bottom: TabBar(
-            isScrollable: true,
-            tabs: BlocProvider.of<CategoriesCubit>(context)
-                .categoriesItems
-                .map((category) {
-              return Tab(
-                text: category.name,
-              );
-            }).toList(),
-          ),
-        ),
-        body: BlocBuilder<CategoriesStandsCubit, CategoriesStandsState>(
-          builder: (context, state) {
-            return Column(
+    return BlocConsumer<CategoriesStandsCubit, CategoriesStandsState>(
+      listener: (context, state) {
+        if (state is CategoriesStandsSuccess) {
+          BlocProvider.of<CategoriesStandsCubit>(context).getProductsStands(
+            categoryId: context.read<CategoriesCubit>().categoriesItems[widget.currentPosition].id,
+            standId: context.read<CategoriesStandsCubit>().stands.first.id.toString(),
+          );
+          subTabController = TabController(
+            length: BlocProvider.of<CategoriesStandsCubit>(context).stands.length,
+            vsync: this,
+          );
+          subTabController.addListener(_handleTabSelection);
+        }
+      },
+      builder: (context, state) {
+        return DefaultTabController(
+          initialIndex: widget.currentPosition,
+          length: BlocProvider.of<CategoriesCubit>(context).categoriesItems.length,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.pink,
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: BlocProvider.of<CategoriesCubit>(context)
+                    .categoriesItems
+                    .map((category) {
+                  return Tab(
+                    text: category.name,
+                  );
+                }).toList(),
+              ),
+            ),
+            body: state is CategoriesStandsLoading  ? const Center(child: CircularProgressIndicator(),):
+            Column(
               children: [
-              TabBar(
+                TabBar(
                   labelStyle: const TextStyle(fontWeight: FontWeight.bold),
                   controller: subTabController,
                   isScrollable: true,
@@ -97,23 +105,35 @@ class _ProductsCategoryViewState extends State<ProductsCategoryView>
                 ),
                 Expanded(
                   child: TabBarView(
-                      controller: subTabController,
-                      children: List.generate(context.read<CategoriesStandsCubit>().stands.length, (index) {
-                        return state is ProductsStandsLoading
-                            ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                            : context.read<CategoriesStandsCubit>().productsList.isEmpty
-                            ? const EmptyListWidget()
-                            :  ProductsStandGridView(products:context.read<CategoriesStandsCubit>().productsList ,);
-                      })),
-                )
+                    controller: subTabController,
+                    children: List.generate(
+                      context.read<CategoriesStandsCubit>().stands.length,
+                          (index)
+                      {
+                        if(context.read<CategoriesStandsCubit>().productsList.isEmpty && state is ProductsStandsSuccess)
+                          {
+                            return const EmptyListWidget();
+                          }
+                        else if(state is ProductsStandsLoading)
+                          {
+                            return const Center(child: CircularProgressIndicator(),);
+                          }
+                        else
+                          {
+                            return ProductsStandGridView(
+                              products: context.read<CategoriesStandsCubit>().productsList,
+                            );
+                          }
+                      },
+                    ),
+                  ),
+                ),
               ],
-            );
-          },
-        ),
-        bottomNavigationBar: const BottomNavigationBarWidget(),
-      ),
+            ),
+            bottomNavigationBar: const BottomNavigationBarWidget(),
+          ),
+        );
+      },
     );
   }
 }

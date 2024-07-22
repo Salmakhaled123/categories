@@ -15,8 +15,8 @@ class ProductStandItemWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomLeft,
             children: [
-            product.image.isEmpty ? Image.network('https://static.vecteezy.com/system/resources/previews/004/999/463/original/shopping-cart-icon-illustration-free-vector.jpg',fit: BoxFit.cover,) : Image.network(fit: BoxFit.cover,
-                product.image,
+            Image.network(fit: BoxFit.cover,
+                product.image ,
               ),
               product.offerPrice
                   ? Container(padding: const EdgeInsets.all(2),

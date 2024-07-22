@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../view_models/categories/categories_cubit.dart';
-import '../view_models/categories_stand/categories_stands_cubit.dart';
 
 
 class CategoriesView extends StatelessWidget {
@@ -42,8 +41,8 @@ class CategoriesView extends StatelessWidget {
                 mainAxisSpacing: 1.0, // Spacing between rows
               ),
               itemBuilder: (context, index) => GestureDetector(
-                onTap: ()async{
-                await BlocProvider.of<CategoriesStandsCubit>(context).getAllCategoriesStands(int.parse(state.categoriesList[index].id));
+                onTap: (){
+               // await BlocProvider.of<CategoriesStandsCubit>(context).getAllCategoriesStands(int.parse(state.categoriesList[index].id));
              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsCategoryView( currentPosition: index)));
 
                 },
