@@ -4,8 +4,8 @@ import 'package:categories_task/category_feature/data/models/product_stand.dart'
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-import '../../../core/api_service.dart';
-import '../../../core/constants.dart';
+import '../../../core/utils/api_service.dart';
+import '../../../core/utils/constants.dart';
 import '../../../core/errors/failure.dart';
 import '../models/categories_model.dart';
 import '../models/categories_stands.dart';
