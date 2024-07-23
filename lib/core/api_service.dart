@@ -5,7 +5,7 @@ class ApiService{
       'https://martizoom.com/api';
 
   late Dio dio;
-   ApiService({required this.dio});
+   ApiService( {required this.dio});
   Future<dynamic>get(String endpoint)async
   {
     Response response=await dio.get('$_baseUrl$endpoint');
