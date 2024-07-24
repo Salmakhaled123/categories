@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:categories_task/category_feature/data/models/product_stand.dart';
 import 'package:flutter/material.dart';
 import 'add_to_cart_out_of_stock_button.dart';
@@ -15,9 +16,7 @@ class ProductStandItemWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomLeft,
             children: [
-            Image.network(fit: BoxFit.cover,
-                product.image ,
-              ),
+           CachedNetworkImage(imageUrl: product.image,fit: BoxFit.cover,errorWidget:  (context, url, error) => const Icon(Icons.error),),
               product.offerPrice
                   ? Container(padding: const EdgeInsets.all(2),
                       decoration: const BoxDecoration(

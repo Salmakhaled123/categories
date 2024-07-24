@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:categories_task/category_feature/presentation/views/product_category_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class CategoriesView extends StatelessWidget {
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,
-              color: Colors.red,
+              color: Colors.pink,
             )),
         title: const Text(
           'All Categories',
@@ -46,9 +47,7 @@ class CategoriesView extends StatelessWidget {
              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsCategoryView( currentPosition: index)));
 
                 },
-                child: Image.network(
-                   state.categoriesList[index].image,
-                 ),
+                child: CachedNetworkImage(imageUrl: state.categoriesList[index].image,errorWidget: (context, url, error) => const Icon(Icons.error),)
               ),
             );
           } else if (state is CategoriesLoading) {
